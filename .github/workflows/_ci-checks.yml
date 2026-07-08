@@ -1,0 +1,61 @@
+name: CI-checks
+
+on:
+  workflow_call:
+    inputs:
+      all:
+        description: "Skip path filters and run all CI (for push/dispatch events)"
+        type: boolean
+        default: false
+        required: false
+
+permissions: {}
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  path-filter:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 1
+
+    permissions:
+      contents: read
+      pull-requests: read
+
+    outputs:
+      src_changed: ${{ inputs.all && 'true' || steps.filter.outputs.src_changed }}
+      workflow_changed: ${{ inputs.all && 'true' || steps.filter.outputs.workflow_changed }}
+
+    steps:
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+        if: ${{ !inputs.all }}
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+
+      - uses: dorny/paths-filter@fbd0ab8f3e69293af611ebaee6363fc25e6d187d # v4.0.1
+        id: filter
+        if: ${{ !inputs.all }}
+        with:
+          filters: |
+            src_changed:
+              - 'src/**'
+              - '.github/workflows/_ci-src.yml'
+            workflow_changed:
+              - '.github/workflows/**'
+              - 'aqua.yaml'
+
+  check-src:
+    needs: path-filter
+    if: needs.path-filter.outputs.src_changed == 'true'
+    uses: ./.github/workflows/_ci-src.yml
+    permissions:
+      contents: read
+
+  check-workflows:
+    needs: path-filter
+    if: needs.path-filter.outputs.workflow_changed == 'true'
+    uses: ./.github/workflows/_ci-workflows.yml
+    permissions:
+      contents: read

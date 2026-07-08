@@ -1,0 +1,72 @@
+# Auto detect text files and perform LF normalization
+* text=auto
+
+# Source code
+*.cs text diff=csharp eol=lf
+*.csproj text eol=lf
+*.sln text eol=lf
+*.slnx text eol=lf
+*.props text eol=lf
+*.prop text eol=lf
+*.targets text eol=lf
+
+# Configuration files
+*.json text eol=lf
+*.yml text eol=lf
+*.yaml text eol=lf
+*.xml text eol=lf
+*.config text eol=lf
+*.editorconfig text eol=lf
+.gitignore text eol=lf
+.gitattributes text eol=lf
+
+# Documentation
+*.md text eol=lf
+*.txt text eol=lf
+
+# Scripts
+*.sh text eol=lf
+*.bash text eol=lf
+
+# Windows scripts
+*.bat text eol=crlf
+*.cmd text eol=crlf
+*.ps1 text eol=crlf
+
+# Binary files
+*.dll binary
+*.exe binary
+*.pdb binary
+*.snk binary
+*.pfx binary
+
+# Images
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.ico binary
+*.bmp binary
+*.svg binary
+
+# Archives
+*.zip binary
+*.7z binary
+*.gz binary
+*.tar binary
+
+# Fonts
+*.ttf binary
+*.otf binary
+*.woff binary
+*.woff2 binary
+
+# Exclude generated files from language statistics
+*.Designer.cs linguist-generated=true
+*.designer.cs linguist-generated=true
+**/obj/** linguist-generated=true
+**/bin/** linguist-generated=true
+packages/** linguist-vendored=true
+
+# Agentic workflows lock files
+.github/workflows/*.lock.yml linguist-generated=true merge=ours

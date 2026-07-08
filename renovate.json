@@ -1,0 +1,29 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": [
+    "config:recommended",
+    "github>aquaproj/aqua-renovate-config#2.13.0"
+  ],
+  "dependencyDashboardApproval": false,
+  "platformAutomerge": true,
+  "minimumReleaseAge": "7 days",
+  "schedule": ["before 1pm on monday"],
+  "timezone": "Asia/Tokyo",
+  "enabledManagers": ["github-actions", "nuget", "custom.regex"],
+  "packageRules": [
+    {
+      "matchUpdateTypes": ["patch"],
+      "automerge": true
+    },
+    {
+      "matchPackageNames": ["aquaproj/**"],
+      "matchUpdateTypes": ["minor"],
+      "automerge": true
+    },
+    {
+      "matchManagers": ["nuget"],
+      "matchUpdateTypes": ["major"],
+      "minimumReleaseAge": "30 days"
+    }
+  ]
+}
