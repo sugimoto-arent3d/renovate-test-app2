@@ -25,7 +25,7 @@ jobs:
       pull-requests: read
 
   status-check:
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     needs: ci-checks
     if: ${{ failure() || cancelled() }}
     timeout-minutes: 1
